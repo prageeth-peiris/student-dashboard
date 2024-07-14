@@ -11,6 +11,12 @@ class Student extends Model
 
     protected $fillable = ['user_id', 'registration_number','name','email'];
 
+        public function marks(){
+            return $this->hasMany(Mark::class);
+        }
+
+
+
 
 
 }

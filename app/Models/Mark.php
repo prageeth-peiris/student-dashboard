@@ -12,4 +12,10 @@ class Mark extends Model
     protected $fillable = ['student_id', 'subject_id', 'marks'];
 
 
+    public function subject()
+    {
+        return $this->belongsTo(Subject::class);
+    }
+
+
 }
