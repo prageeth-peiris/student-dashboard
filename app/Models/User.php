@@ -4,6 +4,8 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Enums\Roles;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -11,7 +13,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Yebor974\Filament\RenewPassword\Contracts\RenewPasswordContract;
 use Yebor974\Filament\RenewPassword\Traits\RenewPassword;
 
-class User extends Authenticatable implements RenewPasswordContract
+class User extends Authenticatable implements RenewPasswordContract,FilamentUser
 {
     use HasApiTokens, HasFactory, Notifiable , RenewPassword;
 
@@ -56,6 +58,11 @@ class User extends Authenticatable implements RenewPasswordContract
     {
 
         return ($this->role === Roles::STUDENT->value) && is_null($this->last_renew_password_at) ;
+    }
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return true;
     }
 
 
