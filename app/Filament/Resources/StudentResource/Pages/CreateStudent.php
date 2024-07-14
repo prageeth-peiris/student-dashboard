@@ -20,7 +20,7 @@ class CreateStudent extends CreateRecord
         $user_id = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => $data['registration_number'],
+            'password' => Hash::make($data['registration_number']),
             'role' =>  Roles::STUDENT->value ,
         ])->id;
 
