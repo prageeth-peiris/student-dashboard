@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->enum('role', ['admin', 'student'])->default('admin');
-            $table->boolean('first_login_complete')->default(false);
             $table->timestamps();
         });
     }

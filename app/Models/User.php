@@ -3,14 +3,17 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Enums\Roles;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Yebor974\Filament\RenewPassword\Contracts\RenewPasswordContract;
+use Yebor974\Filament\RenewPassword\Traits\RenewPassword;
 
-class User extends Authenticatable
+class User extends Authenticatable implements RenewPasswordContract
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable , RenewPassword;
 
     /**
      * The attributes that are mass assignable.
@@ -22,7 +25,6 @@ class User extends Authenticatable
         'email',
         'password',
         'role' ,
-         'first_login_complete'
     ];
 
     /**
@@ -48,6 +50,12 @@ class User extends Authenticatable
     public function student()
     {
         return $this->hasOne(Student::class);
+    }
+
+    public function needRenewPassword(): bool
+    {
+
+        return ($this->role === Roles::STUDENT->value) && is_null($this->last_renew_password_at) ;
     }
 
 
